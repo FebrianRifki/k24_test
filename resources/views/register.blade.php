@@ -102,6 +102,9 @@
   <script src="assets/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
   <script src="assets/js/adminlte.min.js"></script>
+  <!-- InputMask -->
+<script src="assets/js/moment.min.js"></script>
+<script src="assets/js/jquery.inputmask.min.js"></script>
 </body>
 
 </html>
