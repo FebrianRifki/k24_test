@@ -16,27 +16,36 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="assets/js/jquery.min.js"></script>
+<script src="{{url('/')}}/assets/js/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="assets/js/jquery-ui.min.js"></script>
+<script src="{{url('/')}}/assets/js/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
-<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="{{url('/')}}/assets/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="{{url('/')}}/assets/js/select2.full.min.js"></script>
 <!-- daterangepicker -->
-<script src="assets/js/moment.min.js"></script>
-<script src="assets/js/daterangepicker.js"></script>
+<script src="{{url('/')}}/assets/js/moment.min.js"></script>
+<script src="{{url('/')}}/assets/js/daterangepicker.js"></script>
 <!-- overlayScrollbars -->
-<script src="assets/js/jquery.overlayScrollbars.min.js"></script>
+<script src="{{url('/')}}/assets/js/jquery.overlayScrollbars.min.js"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="assets/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="{{url('/')}}/assets/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- AdminLTE App -->
-<script src="assets/js/adminlte.js"></script>
-<script src="assets/js/jquery.inputmask.min.js"></script>
+<script src="{{url('/')}}/assets/js/adminlte.js"></script>
+<script src="{{url('/')}}/assets/js/jquery.inputmask.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+    theme: 'bootstrap4'
+    })
+
     //Datemask dd/mm/yyyy
     $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
     //Datemask2 mm/dd/yyyy
@@ -67,5 +76,28 @@ $(document).ready(function() {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
       }
     )
+
+    $('#exampleInputFile').on('change', function() {
+        previewFile(this);
+    });
+    
+    function previewFile() {
+    const preview = document.getElementById('previewImg');
+    const file = document.getElementById('exampleInputFile').files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = function () {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = '';
+        preview.style.display = 'none';
+    }
+}
+
 });
 </script>

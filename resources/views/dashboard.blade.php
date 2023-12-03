@@ -29,63 +29,53 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+      @if(session('success'))
+          <div class="alert alert-success">
+              {{ session('success') }}
+          </div>
+      @endif
          <div class="row">
             <div class="col-md-10"></div>
             <div class="col-md-2">
-            <a href="{{ route('new_user') }}"><button type="button" class="btn btn-block btn-primary">Buat User</button></a>  
-            
+            <a href="{{ route('user.create') }}"><button type="button" class="btn btn-block btn-primary">Create User</button></a>  
             </div>
          </div>
          <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>Name</th>
-                      <th>Photo</th>
-                      <th>Date of Birth</th>
-                      <th>Email</th>
-                      <th>Gender</th>
-                      <th>KTP Number</th>
+                      <th>Foto</th>
+                      <th>Tanggal Lahir</th>
+                      <th>Alamat Email</th>
+                      <th>Jenis Kelamin</th>
+                      <th>Nomor Telepon</th>
+                      <th>Nomor KTP</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>183</td>
-                      <td>John Doe</td>
-                      <td>John Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-success">Approved</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                      <td>12351231234</td>
+                  @foreach($users as $user)
+                  <tr>
+                      <td>{{$user->name}}</td>
+                      <td>{{$user->photo}}</td>
+                      <td>{{$user->date_of_birth}}</td>
+                      <td>{{$user->email}}</td>
+                      <td>{{$user->gender}}</td>
+                      <td>{{$user->phone_number}}</td>
+                      <td>{{$user->ktp_number}}</td>
+                      <td>  
+                        <div class="row">
+                          <div class="col-md-6">
+                              <a href="{{ route('user.edit', ['id'=>$user->id]) }}"><button type="button" class="btn btn-block btn-dark btn-xs">Edit</button></a> 
+                          </div>
+                          <div class="col-md-6">
+                             <button type="button" class="btn btn-block btn-danger btn-xs" data-toggle="modal" data-target="#modal-danger">Hapus</button>
+                          </div> 
+                        </div> 
+                      </td>
                     </tr>
-                    <tr>
-                      <td>219</td>
-                      <td>Alexander Pierce</td>
-                      <td>John Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-warning">Pending</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                      <td>12351231234</td>
-                    </tr>
-                    <tr>
-                      <td>657</td>
-                      <td>Bob Doe</td>
-                      <td>John Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-primary">Approved</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                      <td>12351231234</td>
-                    </tr>
-                    <tr>
-                      <td>175</td>
-                      <td>Mike Doe</td>
-                      <td>John Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-danger">Denied</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                      <td>12351231234</td>
-                    </tr>
+                  @endforeach
                   </tbody>
                 </table>
               </div>
@@ -94,6 +84,32 @@
     </section>
     <!-- /.content -->
   </div>
+  <div class="modal fade" id="modal-danger">
+        <div class="modal-dialog">
+          <div class="modal-content bg-danger">
+            <div class="modal-header">
+              <h4 class="modal-title">Hapus Data</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Anda yakin mau menghapus data?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Batal</button>
+              <form action="{{ route('user.delete', ['id' => $user->id]) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-outline-light">Hapus</button>
+              </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
  @include('partials.footer')
 </body>
 </html>
