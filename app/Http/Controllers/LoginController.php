@@ -24,19 +24,31 @@ class LoginController extends Controller
     }
 
     public function register(Request $request){
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:6',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:1024'
         ], [
+            'username.required' => 'username tidak boleh kosong.',
+            'password.required' => 'password tidak boleh kosong.',
+            'email.required' => 'email tidak boleh kosong.',
             'name.required' => 'Nama harus diisi.',
             'email.required' => 'Email harus diisi.',
             'email.email' => 'Email tidak valid.',
             'email.unique' => 'Email sudah digunakan.',
             'password.required' => 'Password harus diisi.',
             'password.min' => 'Password minimal 6 karakter.',
-            'password.confirmed' => 'Password tidak cocok dengan konfirmasi password.',
+            'photo.image' => 'File yang diupload harus berupa gambar.',
+            'photo.mimes' => 'File yang diupload harus dalam format jpeg, png, jpg, atau gif.',
+            'photo.max' => 'Ukuran file tidak boleh lebih dari 1 MB.'
         ]);
+
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/photos', $imageName); 
+        }
 
         $userData = [
             'name' =>  $request['name'],
@@ -46,7 +58,7 @@ class LoginController extends Controller
             'email' => $request['email'],
             'gender' => $request['gender'],
             'ktp_number' => $request['ktpNumber'],
-            'photo' => null,
+            'photo' => $imageName,
             'role' => 'Member'
         ];
 

@@ -61,7 +61,7 @@
                   @foreach($users as $user)
                   <tr>
                       <td>{{$user->name}}</td>
-                      <td>{{$user->photo}}</td>
+                      <td><img src="{{ url('/storage/photos/' . $user->photo) }}" alt="Foto Pengguna" style="max-width: 200px; max-height: 200px;"></td>
                       <td>{{$user->date_of_birth}}</td>
                       <td>{{$user->email}}</td>
                       <td>{{$user->gender}}</td>
@@ -82,7 +82,7 @@
                   @else
                   <tr>
                       <td>{{$users->name}}</td>
-                      <td>{{$users->photo}}</td>
+                      <td><img src="{{ url('storage/photos/' .  $users->photo) }}" alt="Foto Pengguna" style="max-width: 200px; max-height: 200px;"></td>
                       <td>{{$users->date_of_birth}}</td>
                       <td>{{$users->email}}</td>
                       <td>{{$users->gender}}</td>
@@ -90,7 +90,7 @@
                       <td>{{$users->ktp_number}}</td>
                       <td>  
                         <div class="row">
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                               <a href="{{ route('user.edit', ['id'=>$users->id]) }}"><button type="button" class="btn btn-block btn-dark btn-xs">Edit</button></a> 
                           </div>
                         </div> 

@@ -94,6 +94,7 @@
                     </div>
                   </div>
                 </div>
+                <img id="previewImg" src="#" alt="Preview" style="display: none; max-width: 200px; max-height: 200px;">
                 <!-- /.card-body -->
 
                 <div class="card-footer">

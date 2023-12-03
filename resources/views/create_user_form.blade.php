@@ -95,7 +95,9 @@
                       </div> -->
                     </div>
                   </div>
+                  <div class="form-group">
                   <img id="previewImg" src="#" alt="Preview" style="display: none; max-width: 200px; max-height: 200px;">
+                  </div>
                   <div class="form-group">
                     <label>Role</label>
                     <select class="form-control select2" name="role" data-minimum-results-for-search="Infinity" style="width: 100%;">

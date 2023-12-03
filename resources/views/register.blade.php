@@ -22,7 +22,7 @@
       @endif
       <p class="login-box-msg">Register a new membership</p>
 
-      <form action="{{ route('register') }}" method="POST">
+      <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
       @csrf
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Nama" name="name">
@@ -99,7 +99,7 @@
             </div> -->
           </div>
         </div>
-        <img id="previewImg" src="#" alt="Preview" style="display: none; max-width: 200px; max-height: 200px;">
+        <img class="input-group mb-3" id="previewImg" src="#" alt="Preview" style="display: none; max-width: 200px; max-height: 200px;">
         <div class="row">
           <!-- /.col -->
           <div class="col-12">
