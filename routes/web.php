@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LoginController;
 use App\Models\Users;
 
 /*
@@ -20,25 +20,32 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    $users = Users::all();
-    return view('dashboard')->with('users', $users);
-})->name('dashboard');
+// Route::get('/dashboard', function () {
+//     $userData = Auth::user();
+//     if ($userData && $userData->role == 'Admin'){
+//         $users = Users::all();
+//     }else if ($userData){
+//         $users=  $user = Users::find($userData->$id);
+//     } else {
+//         redirect('/login');
+//     }
+//     return view('dashboard')->with('users', $users)->with('userData', $userData);
+// })->name('dashboard');
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login.page');
 
 Route::get('/register', function () {
     return view('register');
 });
 
-Route::get('/singin', [AuthController::class, 'login']);
-Route::get('/singout', [AuthController::class, 'logout']);
-Route::get('/singup', [AuthController::class, 'register']);
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/register', [LoginController::class, 'register'])->name('register');
 
 // User route
-Route::get('/users', [UserController::class, 'index']);
+Route::get('/users', [UserController::class, 'index'])->name('dashboard');
 Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
 Route::post('/users', [UserController::class, 'store'])->name('user.store');
 Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');

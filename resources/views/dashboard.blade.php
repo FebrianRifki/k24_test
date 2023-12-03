@@ -34,12 +34,14 @@
               {{ session('success') }}
           </div>
       @endif
+      @if($userData->role == 'Admin')
          <div class="row">
             <div class="col-md-10"></div>
             <div class="col-md-2">
             <a href="{{ route('user.create') }}"><button type="button" class="btn btn-block btn-primary">Create User</button></a>  
             </div>
          </div>
+        @endif
          <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                   <thead>
@@ -55,6 +57,7 @@
                     </tr>
                   </thead>
                   <tbody>
+                  @if($userData->role == 'Admin')
                   @foreach($users as $user)
                   <tr>
                       <td>{{$user->name}}</td>
@@ -76,6 +79,24 @@
                       </td>
                     </tr>
                   @endforeach
+                  @else
+                  <tr>
+                      <td>{{$users->name}}</td>
+                      <td>{{$users->photo}}</td>
+                      <td>{{$users->date_of_birth}}</td>
+                      <td>{{$users->email}}</td>
+                      <td>{{$users->gender}}</td>
+                      <td>{{$users->phone_number}}</td>
+                      <td>{{$users->ktp_number}}</td>
+                      <td>  
+                        <div class="row">
+                          <div class="col-md-6">
+                              <a href="{{ route('user.edit', ['id'=>$users->id]) }}"><button type="button" class="btn btn-block btn-dark btn-xs">Edit</button></a> 
+                          </div>
+                        </div> 
+                      </td>
+                    </tr>
+                  @endif
                   </tbody>
                 </table>
               </div>
@@ -98,11 +119,19 @@
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-outline-light" data-dismiss="modal">Batal</button>
-              <form action="{{ route('user.delete', ['id' => $user->id]) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-outline-light">Hapus</button>
-              </form>
+              @if($userData->role == 'Admin')
+                <form action="{{ route('user.delete', ['id' => $user->id]) }}" method="POST">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-outline-light">Hapus</button>
+                </form>
+              @else
+              <form action="{{ route('user.delete', ['id' => $users->id]) }}" method="POST">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-outline-light">Hapus</button>
+                </form>
+                @endif
             </div>
           </div>
           <!-- /.modal-content -->

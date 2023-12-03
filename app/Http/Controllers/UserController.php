@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 use App\Models\Users;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index() {
-        $users = Users::all();
-        return view('dashboard')->with('users', $users);
+        $userData = Auth::user();
+    
+        if ($userData && $userData->role == 'Admin'){
+            $users = Users::all();
+        }else if ($userData){
+            $users=  $user = Users::find($userData->id);
+        } else {
+           return  redirect('/login');
+        }
+        return view('dashboard')->with('users', $users)->with('userData', $userData);
     }
 
     public function create() {
@@ -28,7 +37,7 @@ class UserController extends Controller
 
         $userData = [
             'name' =>  $request['username'],
-            'password' => $request['password'],
+            'password' => bcrypt( $request['password']),
             'phone_number' => $request['phoneNumber'],
             'date_of_birth' => null,
             'email' => $request['email'],
