@@ -49,7 +49,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Retype password" name="password_confirmation">
+          <input type="password" class="form-control" placeholder="Ulangi Password" name="password_confirmation">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -57,7 +57,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter Phone Number">
+        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Nomor Telepon">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-mobile"></span>
@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-        <input type="text" class="form-control" id="ktpnumber" name="ktpNumber" placeholder="Enter KTP Number">
+        <input type="text" class="form-control" id="ktpnumber" name="ktpNumber" placeholder="Nomor KTP">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fa fa-address-card"></span>
@@ -80,7 +80,7 @@
         </div>
         <div class="input-group mb-3">
           <div class="input-group date" id="reservationdate" data-target-input="nearest">
-              <input type="text" name="Dob" class="form-control datetimepicker-input" data-target="#reservationdate">
+              <input type="text" name="Dob" class="form-control datetimepicker-input" data-target="#reservationdate" placeholder="Tanggal Lahir">
               <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
               </div>

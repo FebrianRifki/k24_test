@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Users;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -13,16 +14,26 @@ class UserController extends Controller
     
         if ($userData && $userData->role == 'Admin'){
             $users = Users::all();
+            foreach ($users as $user) {
+                $user->date_of_birth = Carbon::parse($user->date_of_birth)->format('d-m-Y');
+            }
         }else if ($userData){
-            $users=  $user = Users::find($userData->id);
+            $users = Users::find($userData->id);
+            if ($users->date_of_birth != null) {
+                $users->date_of_birth = Carbon::parse($user->date_of_birth)->format('d-m-Y');
+            }
         } else {
-           return  redirect('/login');
+           return redirect('/login');
         }
         return view('dashboard')->with('users', $users)->with('userData', $userData);
     }
 
     public function create() {
-        return view('create_user_form');
+        $userData = Auth::user();
+        if(!$userData){
+            return redirect('/login');
+        }
+        return view('create_user_form')->with('userData', $userData);
     }
 
     public function store(Request $request){
@@ -52,15 +63,17 @@ class UserController extends Controller
             $image->storeAs('public/photos', $imageName);
         }
 
+        $formatedDate = Carbon::createFromFormat('d/m/Y', $request['Dob'])->format('Y-m-d');
+       
         $userData = [
             'name' =>  $request['username'],
             'password' => bcrypt( $request['password']),
             'phone_number' => $request['phoneNumber'],
-            'date_of_birth' => null,
+            'date_of_birth' => $formatedDate,
             'email' => $request['email'],
             'gender' => $request['gender'],
             'ktp_number' => $request['ktpNumber'],
-            'photo' => $imageName,
+            'photo' => $imageName ?? null,
             'role' => $request['role']
         ];
 
@@ -73,8 +86,12 @@ class UserController extends Controller
     }
 
     public function edit($id){
+        $userData = Auth::user();
+        if(!$userData){
+            return redirect('/login');
+        }
         $user = Users::find($id);
-        return view('edit_user_form')->with('user', $user);
+        return view('edit_user_form')->with('user', $user)->with('userData', $userData);
     }
 
     public function update(Request $request, $id) {
@@ -97,10 +114,12 @@ class UserController extends Controller
             $image->storeAs('public/photos', $imageName);
         }
 
+        $formatedDate = Carbon::createFromFormat('d/m/Y', $request['Dob'])->format('Y-m-d');
+
         $user = Users::find($id);
         $user->name = $request['username'];
         $user->phone_number = $request['phoneNumber'];
-        $user->date_of_birth = $request['Dob'];
+        $user->date_of_birth = $formatedDate;
         $user->email = $request['email'];
         $user->gender = $request['gender'];
         $user->photo =  $imageName;
