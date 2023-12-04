@@ -139,6 +139,7 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
+    
  @include('partials.footer')
 </body>
 </html>

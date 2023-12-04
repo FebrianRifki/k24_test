@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Models\Users;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,10 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
 
+// Route::get('/user-json', function (){
+   
+// });
+
 // User route
 Route::get('/users', [UserController::class, 'index'])->name('dashboard');
 Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
@@ -51,4 +56,5 @@ Route::post('/users', [UserController::class, 'store'])->name('user.store');
 Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
+Route::get('/users/json', [UserController::class, 'getDataJson'])->name('user.json');
 

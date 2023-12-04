@@ -141,6 +141,27 @@ class UserController extends Controller
        $data->delete();
        return redirect()->route('dashboard')->with('success', 'Data berhasil dihapus');
     }
+    
+    public function getDataJson(){
+        $userData = Auth::user();
+        if(!$userData){
+            return redirect('/login');
+        }
+        if($userData->role == 'Admin'){
+            $users = Users::all();
+        } else {
+            $users = Users::find($userData->id); 
+        }
+        
+        $jsonData = [
+            'users' => $users,
+        ];
+        
+        $jsonString = json_encode($jsonData);
+        
+        return view('user_json')->with('userData', $userData)->with('jsonData', json_decode($jsonString, JSON_PRETTY_PRINT));
+    }
+    
 
 }
 
