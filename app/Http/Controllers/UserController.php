@@ -109,29 +109,28 @@ class UserController extends Controller
             'photo.mimes' => 'File yang diupload harus dalam format jpeg, png, jpg, atau gif.',
             'photo.max' => 'Ukuran file tidak boleh lebih dari 1 MB.'
         ]);
-
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public/photos', $imageName);
         }
 
-        $formatedDate = Carbon::createFromFormat('d/m/Y', $request['Dob'])->format('Y-m-d');
+        if($request['Dob'] != null){
+            $formatedDate = Carbon::createFromFormat('d/m/Y', $request['Dob'])->format('Y-m-d');    
+        }
 
         $user = Users::find($id);
         $user->name = $request['username'];
         $user->phone_number = $request['phoneNumber'];
-        $user->date_of_birth = $formatedDate;
+        $user->date_of_birth = $formatedDate ?? null;
+        $user->ktp_number = $request['ktpNumber'];
         $user->email = $request['email'];
         $user->gender = $request['gender'];
-        $user->photo =  $imageName;
-
-        if ($user->isDirty('photo')) {
-            $user->save();
-            return redirect()->route('user.edit', $user->id)->with('success', 'Berhasil update data');
-        } else {
-            return redirect()->route('user.edit', $user->id)->with('success', 'Tidak ada perubahan pada foto');
-        }
+        $user->photo =  $imageName ?? null;
+       
+        $user->save();
+        return redirect()->route('user.edit', $user->id)->with('success', 'Berhasil update data');
+        
     }
     public function destroy($id) {
        $data = users::findOrFail($id);
