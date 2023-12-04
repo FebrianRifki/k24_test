@@ -51,18 +51,19 @@ class LoginController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public/photos', $imageName); 
         }
+        if($request['Dob'] != null){
+            $formatedDate = Carbon::createFromFormat('d/m/Y', $request['Dob'])->format('Y-m-d');    
+        }
         
-        $formatedDate = Carbon::createFromFormat('d/m/Y', $request['Dob'])->format('Y-m-d');
-
         $userData = [
             'name' =>  $request['name'],
             'password' => bcrypt( $request['password']),
             'phone_number' => $request['phoneNumber'],
-            'date_of_birth' => $formatedDate,
+            'date_of_birth' => $formatedDate ?? null,
             'email' => $request['email'],
             'gender' => $request['gender'],
             'ktp_number' => $request['ktpNumber'],
-            'photo' => $imageName,
+            'photo' => $imageName ?? null,
             'role' => 'Member'
         ];
 

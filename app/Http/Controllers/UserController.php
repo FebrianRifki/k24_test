@@ -20,7 +20,7 @@ class UserController extends Controller
         }else if ($userData){
             $users = Users::find($userData->id);
             if ($users->date_of_birth != null) {
-                $users->date_of_birth = Carbon::parse($user->date_of_birth)->format('d-m-Y');
+                $users->date_of_birth = Carbon::parse($users->date_of_birth)->format('d-m-Y');
             }
         } else {
            return redirect('/login');
@@ -63,13 +63,15 @@ class UserController extends Controller
             $image->storeAs('public/photos', $imageName);
         }
 
-        $formatedDate = Carbon::createFromFormat('d/m/Y', $request['Dob'])->format('Y-m-d');
-       
+        if($request['Dob'] != null){
+            $formatedDate = Carbon::createFromFormat('d/m/Y', $request['Dob'])->format('Y-m-d');    
+        }
+        
         $userData = [
             'name' =>  $request['username'],
             'password' => bcrypt( $request['password']),
             'phone_number' => $request['phoneNumber'],
-            'date_of_birth' => $formatedDate,
+            'date_of_birth' => $formatedDate ?? null,
             'email' => $request['email'],
             'gender' => $request['gender'],
             'ktp_number' => $request['ktpNumber'],
